@@ -4,17 +4,28 @@ $("#currentDay").append(currentDay);
 var currentTime = moment().format("LT");
 $("#currentTime").append(currentTime);
 
-// var now = new Date().getHours();
+var now = new Date().getHours();
+var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+var saveEvent = function(event) {
+    var buttonId = event.currentTarget.id;
+    // get commentId from corresponding buttonId
+    var commentId = buttonId.replace("button", "#comment");
 
-var hours = [9, 10, 11, 12, 1, 2, 3, 4, 5];
- 
-// for (i = 0; i < hours.length; i++) {
-//     if(currentTime === hours) {
-//         $(this).addClass("present");
-//     }
-//     else if(currentTime < hours) {
-//         $(this).addClass("future");
-//     }
-//     else(currentTime > hours)
-//         $(this).addClass("past");
-//     }
+    localStorage.setItem(commentId, $(commentId).val());
+};
+for (i = 0; i < hours.length; i++) {
+    var hour = hours[i];
+    $("#button" + hour).on("click", saveEvent);
+    if(now === hour) {
+        $("#comment" + hour).addClass("present");
+    }
+    else if(now < hour) {
+        $("#comment" + hour).addClass("future");
+    }
+    else{
+        $("#comment" + hour).addClass("past");
+    }  
+    $("#comment" + hour).val(localStorage.getItem("#comment" + hour));
+};
+
+
